@@ -11,18 +11,24 @@ def quick_sort(array, start, end):
     if start >= end:
         return
 
-    pivot_idx = start
-    pivot = array[end]
-    for i in range(start, end):
-        if array[i] < pivot:
-            array[i], array[pivot_idx] = array[pivot_idx], array[i]
-            pivot_idx += 1
-        yield array
+    # Select a random pivot index
+    pivot_idx = random.randint(start, end)
+    
+    # Move the pivot to the end temporarily
     array[end], array[pivot_idx] = array[pivot_idx], array[end]
+    
+    pivot = array[end]
+    i = start
+    for j in range(start, end):
+        if array[j] < pivot:
+            array[i], array[j] = array[j], array[i]
+            i += 1
+        yield array
+    array[i], array[end] = array[end], array[i] # Swap pivot to its sorted position
     yield array
 
-    yield from quick_sort(array, start, pivot_idx - 1)
-    yield from quick_sort(array, pivot_idx + 1, end)
+    yield from quick_sort(array, start, i - 1)
+    yield from quick_sort(array, i + 1, end)
 
 def bubble_sort(array, start, end):
     n = len(array)
