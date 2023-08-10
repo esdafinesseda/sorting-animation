@@ -10,8 +10,6 @@ def animate(sorting_alg,
             frame_interval: int=50):
     """ Function to animate sorting algorithms.
 
-    ** NOTE THAT SORTING ALGS NEED TO USE YIELD FOR UPDATE, NOT RETURN **
-
     Args:
         sorting_alg: function sorting algorithm
         max_value: the highest value you want for your sort array
@@ -30,6 +28,7 @@ def animate(sorting_alg,
 
     start_time = time.time()
 
+    # I know i should not nest functions but it was easier
     def update_fig(array, bars, start_time):
         for bar, height in zip(bars, array):
             bar.set_height(height)
@@ -48,37 +47,7 @@ def animate(sorting_alg,
     plt.title(title)
     plt.show()
 
-# Sorting algorithms
 
-def quick_sort(array, start, end):
-    if start >= end:
-        return
-
-    pivot_idx = start
-    pivot = array[end]
-    for i in range(start, end):
-        if array[i] < pivot:
-            array[i], array[pivot_idx] = array[pivot_idx], array[i]
-            pivot_idx += 1
-        yield array
-    array[end], array[pivot_idx] = array[pivot_idx], array[end]
-    yield array
-
-    yield from quick_sort(array, start, pivot_idx - 1)
-    yield from quick_sort(array, pivot_idx + 1, end)
-
-def bubble_sort(array, start, end):
-    n = len(array)
-    for i in range(n):
-        swapped = False
-        for j in range(0, n-i-1):
-            if array[j] > array[j+1]:
-                array[j], array[j + 1] = array[j+1], array[j]
-                swapped = True
-                yield array
-                
-        if not swapped:
-            break
 
 
 
